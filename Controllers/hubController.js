@@ -18,6 +18,7 @@ export const parcels_in_hub_id=async (req,res)=>{
         }
   const parcelIds = rows.map(row => row.parcel_id);
   res.json({ parcelIds });
+  
 
 
 };

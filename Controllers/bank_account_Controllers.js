@@ -3,6 +3,7 @@ import {db} from "../Database/dbConnect.js";
 export const list_transaction=async(req,res)=>{
 const {customer_id}=req.body;
 
+
   const is_any_transaction=await db.query("select * from transaction_details where from_id in (select account_id from bank_account where customer_id = $1)",[customer_id]);
   // console.log(is_any_transaction);
   if(is_any_transaction.rowCount===0)

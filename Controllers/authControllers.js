@@ -9,6 +9,7 @@ const generateToken = (user) => {
     {
       expiresIn: "10d",
     }
+    
   );
 };
 
