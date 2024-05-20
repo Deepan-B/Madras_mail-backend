@@ -10,6 +10,7 @@
     "nodemailer": "^6.9.13",
     "nodemon": "^3.1.0",
     "pg": "^8.11.5",
+    "pg-promise": "^11.6.0",
     "svix": "^1.24.0"
   },
   "name": "backend",
