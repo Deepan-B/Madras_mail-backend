@@ -7,7 +7,7 @@ import {accept_send_parcels,parcels_in_hub_id} from "../Controllers/hubControlle
 const router =express.Router();
 
 
-router.get("/parcels",parcels_in_hub_id);
+router.post("/parcels",parcels_in_hub_id);
 router.put("/accept-send-parcels",accept_send_parcels);
 
 export default router;

@@ -51,9 +51,10 @@ export const list_stamp=async(req,res)=>{
 export const add_stamp=async(req,res)=>{
     const { description } =req.body;
     try{
-    const currentDate = new Date().toISOString().slice(0, 10); // Get current date (YYYY-MM-DD)
+        const currentDate = new Date().toISOString().slice(0, 10); // Get current date (YYYY-MM-DD)
+        let stamps = await db.query("select count(*) from stamp");
 
-    await db.query("insert into stamp(description,issue_date) values($1,$2)",[description,currentDate]);
+    await db.query("insert into stamp(stamp_id , description,issue_date) values($1,$2 , $3)",[stamps+1 , description,currentDate]);
     res.status(200).json({message:"Stamp Added Successfully "});
     }
     catch (err) {
