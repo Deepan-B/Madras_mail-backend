@@ -46,9 +46,9 @@ export const transaction_in_bank = async (req,res)=>{
   
       const { sender_balance } = accounts.rows[0];
   
-      if (sender_balance < amount) {
-        return res.status(400).json({ message: "Insufficient balance to transfer amount" });
-      }
+      // if (sender_balance < amount) {
+      //   return res.status(400).json({ message: "Insufficient balance to transfer amount" });
+      // }
   
       // Update sender and receiver balances (assuming a single transaction)
       const updateSender = await db.query(
@@ -74,6 +74,9 @@ export const transaction_in_bank = async (req,res)=>{
       
       res.status(200).json({ message: `Successfully transferred Rs.${amount} from ${to_acc_id} to account ${to_acc_id}` });
     } catch (error) {
+      if (error.message === 'Insufficient balance for transaction') {
+        return res.status(400).json({ error: 'Insufficient funds in sender\'s account' }); // Send a specific error message to frontend
+      }
       console.error('Error during transaction:', error);
       res.status(500).json({ message: "Transaction failed. Please try again later." }); 
     }
@@ -152,7 +155,7 @@ async function isAccountNumberInUse(accountNumber) {
 // Route to create a new bank account record
   const { email,deposit } = req.body; 
  
-  let user = await db.query("SELECT id FROM account WHERE username = $1", [
+  let user = await db.query("SELECT id FROM account WHERE username ilike $1", [
     email,
   ]);
   //console.log(user.rows);

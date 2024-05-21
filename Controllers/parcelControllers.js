@@ -82,8 +82,8 @@ export const find_parcel = async (req, res) => {
         .status(404)
         .json({ message: `No Parcel found with parcel id : ${parcel_id}` });
     const { from_place, to_place } = found_parcel.rows[0];
-        const from_hub=await db.query("select * from connector natural join hub where post_office_id in (select post_office_id from post_office where sub_post=$1)",[from_place]);
-        const to_hub=await db.query("select * from connector natural join hub where post_office_id in (select post_office_id from post_office where sub_post=$1)",[to_place]);
+        const from_hub=await db.query("select * from connector natural join hub where post_office_id in (select post_office_id from post_office where sub_post ilike $1)",[from_place]);
+        const to_hub=await db.query("select * from connector natural join hub where post_office_id in (select post_office_id from post_office where sub_post ilike $1)",[to_place]);
     // console.log(from_hub); console.log(to_hub);
     const from_hub_name = from_hub.rows[0].hub_name;
     const to_hub_name = to_hub.rows[0].hub_name;
@@ -111,7 +111,7 @@ export const find_parcel = async (req, res) => {
 export const send_parcel = async (req, res) => {
   const { from, to, weight, type, email } = req.body;
   try {
-    let sender = await db.query("select id from account where username = $1", [
+    let sender = await db.query("select id from account where username ilike $1", [
       email,
     ]);
 
@@ -158,7 +158,7 @@ export const send_parcel = async (req, res) => {
     // console.log(parcel_id);console.log(id);
 
     const hub = await db.query(
-      "select hub_id from connector natural join hub where post_office_id in (select post_office_id from post_office where sub_post=$1)",
+      "select hub_id from connector natural join hub where post_office_id in (select post_office_id from post_office where sub_post ilike $1)",
       [from]
     );
     // console.log(hub.rows);

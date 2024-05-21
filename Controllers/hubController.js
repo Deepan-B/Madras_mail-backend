@@ -35,8 +35,8 @@ if (p_details.rowCount === 0) {
 const{from_place,to_place,status,status_no} =p_details.rows[0];
 
 // const from_hub=await db.query("select * from connector ")
-const from_hub=await db.query("select * from connector natural join hub where post_office_id in (select post_office_id from post_office where sub_post=$1)",[from_place]);
-const to_hub=await db.query("select * from connector natural join hub where post_office_id in (select post_office_id from post_office where sub_post=$1)",[to_place]);
+const from_hub=await db.query("select * from connector natural join hub where post_office_id in (select post_office_id from post_office where sub_post ilike $1)",[from_place]);
+const to_hub=await db.query("select * from connector natural join hub where post_office_id in (select post_office_id from post_office where sub_post ilike $1)",[to_place]);
 // console.log(to_hub.rows);
 if (from_hub.rowCount === 0 || to_hub.rowCount === 0) {
     return res.status(400).send('Missing connector hub information');
@@ -49,7 +49,7 @@ const sent_hub_id=from_hub.rows[0].hub_id;
 //         const change= await db.query("update parcel set status='sent to hub $1' where parcel_id = $2",[target_hub_id,parcel_id]);
 //     }
 
-const target_PO=await db.query("select * from post_office where sub_post = $1",[to_place]);
+const target_PO=await db.query("select * from post_office where sub_post ilike $1",[to_place]);
 const target_PO_id=target_PO.rows[0].post_office_id;
 
 if(status_no===1 && (sent_hub_id === target_hub_id))

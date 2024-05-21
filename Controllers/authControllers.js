@@ -16,7 +16,7 @@ export const register = async (req, res) => {
   const { name, email, password, phone_no, address, type } = req.body;
 
   try {
-    let user = await db.query("SELECT * FROM account WHERE username = $1", [
+    let user = await db.query("SELECT * FROM account WHERE username ilike $1", [
       email,
     ]);
 
@@ -67,7 +67,7 @@ export const login = async (req, res) => {
   let user = null;
 
   try {
-    user = await db.query("select * from account where username=$1", [email]);
+    user = await db.query("select * from account where username ilike $1", [email]);
     
     let type = user.rows[0].type;
     console.log(type);

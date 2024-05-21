@@ -46,10 +46,10 @@ export const add_scheme = async (req, res) => {
       scheme_details,
       pdf_link,
     ]);
-    const added = await db.query(
-      "select 1 from scheme where scheme_details = $1",
-      [scheme_details]
-    );
+    // const added = await db.query(
+    //   "select 1 from scheme where scheme_details ilike $1",
+    //   [scheme_details]
+    // );
     // res.status(200).json({message:`Scheme added with details `,data:{...added.rows}});
     res.status(200).json({ message: "Scheme added successfully" });
   } catch {
