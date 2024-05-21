@@ -12,6 +12,8 @@ import stamps from "./Router/stamp.js";
 import news from "./Router/news.js";
 import hub from "./Router/hub.js";
 
+import emailRoute from "./Router/emailRoute.js";
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
@@ -23,6 +25,8 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use("/auth", authRoute);
+
+app.use("/send-email", emailRoute);
 
 app.get("/", (req, res) => {
   res.send("api is working");

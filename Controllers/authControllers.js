@@ -68,7 +68,6 @@ export const login = async (req, res) => {
 
   try {
     user = await db.query("select * from account where username=$1", [email]);
-
     let type = user.rows[0].type;
     console.log(type);
     if (!user.rowCount) {
@@ -76,6 +75,7 @@ export const login = async (req, res) => {
     }
 
     let isPasswordMatch;
+
     if (type != "admin" && type != "postoffice" && type != "hubofficer") {
       isPasswordMatch = await bcrypt.compare(password, user.rows[0].password);
       // console.log("hiiiiiii");

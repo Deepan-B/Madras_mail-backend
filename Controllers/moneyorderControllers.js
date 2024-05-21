@@ -79,3 +79,23 @@ export const sent_by_customer = async (req,res)=>{
     });
   }
 };
+
+
+
+
+export const received_by_customer = async (req,res)=>{
+  try{
+    const {customer_id}=req.body;
+    const all_MO_received_by_id=await db.query("select * from money_order where receiver_id = $1",[customer_id]);
+    if(all_MO_received_by_id.rowCount===0)
+        return res.status(200).json({message:`No Money Order found with customer id : ${customer_id}`});
+      res.status(200).json({message:` ${all_MO_received_by_id.rowCount} Money Orders  Found `,data:{...all_MO_received_by_id.rows}});
+}
+catch (err) {
+  res.status(500).json({
+    sucess: false,
+    message: "internal server error , try again",
+    error: `${err}`,
+  });
+}
+};
