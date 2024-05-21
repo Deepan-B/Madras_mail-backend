@@ -19,5 +19,5 @@ router.post("/pincode", pincode_finder);
 
 router.post("/find", any_finder); //errors//now working finely
 router.post("/delivery", delivery);
-router.post("/received",received);
+router.post("/received", received);
 export default router;
