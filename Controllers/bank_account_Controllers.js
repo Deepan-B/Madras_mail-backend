@@ -1,6 +1,6 @@
 import {db} from "../Database/dbConnect.js";
 
-export const list_transaction=async(req,res)=>{
+export const list_sent_transaction=async(req,res)=>{
 const {customer_id}=req.body;
 
 
@@ -12,6 +12,17 @@ const {customer_id}=req.body;
   
 };
 
+export const list_received_transaction=async(req,res)=>{
+  const {customer_id}=req.body;
+  
+  
+    const is_any_transaction=await db.query("select * from transaction_details where to_id in (select account_id from bank_account where customer_id = $1)",[customer_id]);
+    // console.log(is_any_transaction);
+    if(is_any_transaction.rowCount===0)
+      return res.status(200).json({message:"This customer has not received any transaction "});
+    res.status(200).json({message:`Customer\'s Transactions are :`,data: is_any_transaction.rows});
+    
+  };
 export const transaction_in_bank = async (req,res)=>{
 
 
