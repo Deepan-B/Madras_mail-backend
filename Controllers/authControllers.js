@@ -9,7 +9,6 @@ const generateToken = (user) => {
     {
       expiresIn: "10d",
     }
-    
   );
 };
 
@@ -61,41 +60,36 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    const { type,email,password } = req.body;
-    
-    // console.log("hiii-------------------------------");
+  const {  email, password } = req.body;
+
+  // console.log("hiii-------------------------------");
 
   let user = null;
 
   try {
-      user = await db.query("select * from account where username=$1", [email]);
-      console.log(user.rows[0].password);
-      
-
+    user = await db.query("select * from account where username=$1", [email]);
+    
+    let type = user.rows[0].type;
+    console.log(type);
     if (!user.rowCount) {
       return res.status(404).json({ message: "User Not Found" });
-      }
-      
-    let isPasswordMatch ;  
-      if(type!="admin"){
-     isPasswordMatch = await bcrypt.compare(
-     password,
-      user.rows[0].password
-    );
-  }
-  else 
-  {
-    isPasswordMatch=(password===user.rows[0].password);
-    // if(password===user.rows[0].password)
+    }
 
-  }
+    let isPasswordMatch;
+    if (type != "admin" && type != "postoffice") {
+      isPasswordMatch = await bcrypt.compare(password, user.rows[0].password);
+      // console.log("hiiiiiii");
+    } else {
+      isPasswordMatch =  (password === user.rows[0].password) ? true : false;
+      // console.log(isPasswordMatch , "hii");
+    }
+    // console.log(isPasswordMatch , "hii");    
+
     if (!isPasswordMatch) {
       return res.status(400).json({ message: "password doesn't match" });
     }
 
     const token = generateToken(user);
-
-    
 
     res.status(200).json({
       message: "Sucessfully login",

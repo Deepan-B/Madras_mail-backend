@@ -12,12 +12,12 @@ import {
 
 const router = express.Router();
 
-router.get("/id", id_finder);
-router.get("/main_post", main_finder);
-router.get("/sub_post", sub_finder);
+router.post("/id", id_finder);
+router.post("/main_post", main_finder);
+router.post("/sub_post", sub_finder);
 router.post("/pincode", pincode_finder);
 
 router.post("/find", any_finder); //errors//now working finely
-router.put("/delivery", delivery);
-router.get("/received", received);
+router.post("/delivery", delivery);
+router.post("/received",received);
 export default router;
