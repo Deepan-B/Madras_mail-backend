@@ -5,14 +5,12 @@ import { db } from "./Database/dbConnect.js";
 import dotenv from "dotenv";
 import authRoute from "./Router/auth.js";
 import post_office from "./Router/post_office.js";
-import  scheme from "./Router/scheme.js";
-import customer_route from "./Router/customer.js"
-import feedback from  "./Router/feedback.js"
+import scheme from "./Router/scheme.js";
+import customer_route from "./Router/customer.js";
+import feedback from "./Router/feedback.js";
 import stamps from "./Router/stamp.js";
-import news from"./Router/news.js";
-import hub from "./Router/hub.js"
-
-
+import news from "./Router/news.js";
+import hub from "./Router/hub.js";
 
 dotenv.config();
 const app = express();
@@ -21,30 +19,28 @@ const corsOptions = {
   origin: true,
 };
 
-
 app.use(express.json());
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.use("/api/v1/auth", authRoute);
-
+app.use("/auth", authRoute);
 
 app.get("/", (req, res) => {
   res.send("api is working");
 });
 
-app.use("/stamps",stamps);
+app.use("/stamps", stamps);
 
-app.use("/customer",customer_route);
+app.use("/customer", customer_route);
 
-app.use("/hub",hub);
+app.use("/hub", hub);
 
-app.use("/scheme",scheme);
+app.use("/scheme", scheme);
 
-app.use("/news",news);
+app.use("/news", news);
 
-app.use("/post-office",post_office);
+app.use("/post-office", post_office);
 
-app.use("/feedback",feedback);
+app.use("/feedback", feedback);
 
 // db.end().then(() => {
 //   console.log("database disconnected");
@@ -65,4 +61,3 @@ db.connect().then(() => {
 app.listen(PORT, () => {
   console.log(`Server connected successfully at ${PORT}`);
 });
-

@@ -23,7 +23,7 @@ router.get("/list-transaction",list_transaction);
 router.post("/parcel/post",send_parcel);
 router.get("/parcel/find",find_parcel);
 router.get("/customer/parcel",find_parcel_sent_by_customer);
-router.get("/price-calc",price_calc);
+router.post("/price-calc",price_calc);
 // router.get("/trial",trial);
 
 
