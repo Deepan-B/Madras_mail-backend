@@ -39,7 +39,7 @@ export const register = async (req, res) => {
     );
 
     db.query(
-      "INSERT INTO account(username, password, type, id) VALUES ($1, $2, $3, $4)",
+      "INSERT INTO account(username, password, type, id) VALUES ($1, $2,$3, $4)",
       [email, hashPassword, type, count1 + 1]
     )
       .then(() => {
@@ -60,7 +60,7 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const {  email, password } = req.body;
+  const { email, password } = req.body;
 
   // console.log("hiii-------------------------------");
 
@@ -68,7 +68,6 @@ export const login = async (req, res) => {
 
   try {
     user = await db.query("select * from account where username=$1", [email]);
-    
     let type = user.rows[0].type;
     console.log(type);
     if (!user.rowCount) {
@@ -76,14 +75,15 @@ export const login = async (req, res) => {
     }
 
     let isPasswordMatch;
-    if (type != "admin" && type != "postoffice") {
+
+    if (type != "admin" && type != "postoffice" && type != "hubofficer") {
       isPasswordMatch = await bcrypt.compare(password, user.rows[0].password);
       // console.log("hiiiiiii");
     } else {
-      isPasswordMatch =  (password === user.rows[0].password) ? true : false;
+      isPasswordMatch = password === user.rows[0].password ? true : false;
       // console.log(isPasswordMatch , "hii");
     }
-    // console.log(isPasswordMatch , "hii");    
+    // console.log(isPasswordMatch , "hii");
 
     if (!isPasswordMatch) {
       return res.status(400).json({ message: "password doesn't match" });

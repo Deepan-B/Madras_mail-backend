@@ -114,59 +114,6 @@ export const pincode_finder = async (req, res) => {
 };
 
 
-export const id_finder = async (req, res) => {
-  //const { id }=req.params;
-  const { id } = req.body;
-  post_office = await db.query(
-    "select * from post_office where post_office_id = $1",
-    [id]
-  );
-  res.status(200).json({
-    message: "Fetch Succesfull",
-    data: { ...post_office.rows[0] },
-  });
-};
-export const main_finder = async (req, res) => {
-  // const { id }=req.params;
-  const { id } = req.body;
-  post_office = await db.query(
-    "select * from post_office where main_post = $1",
-    [id]
-  );
-  //  res.json("sd");
-  let rowc = post_office.rowCount;
-  res.status(200).json({
-    title: "Fetch Succesfull ",
-    message: "There are " + rowc + " sub_post stations with  main_post : " + id,
-    data: { ...post_office.rows },
-  });
-};
-export const sub_finder = async (req, res) => {
-  // const { id }=req.params;
-  const { id } = req.body;
-  post_office = await db.query(
-    "select * from post_office where sub_post = $1",
-    [id]
-  );
-  let rowc = post_office.rowCount;
-  res.status(200).json({
-    title: "Fetch Succesfull ",
-    //  message: "There are "+rowc+" sub_post stations with  main_post : "+id,
-    data: { ...post_office.rows },
-  });
-};
-export const pincode_finder = async (req, res) => {
-  // const { id }=req.params;
-  const { id } = req.body;
-  post_office = await db.query("select * from post_office where pincode = $1", [
-    id,
-  ]);
-  let rowc = post_office.rowCount;
-  res
-    .status(200)
-    .json({ title: "Fetch Succesfull ", data: { ...post_office.rows } });
-};
-
 export const any_finder = async (req, res) => {
   const { key, value } = req.body;
 
